@@ -8,6 +8,10 @@ import java.util.*;
 public class Funcionario 
 {
     private String nome;
+    private String sobrenome;
+    private String funcao;
+    private String cpf;
+    private String senha;
     private int id;
     
     public void addFuncionario(Funcionario F)
@@ -29,6 +33,14 @@ public class Funcionario
                 
     }
     
+    public Funcionario(String nome, String sobrenome, String cpf, String funcao, String senha) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.cpf = cpf;
+        this.funcao = funcao;
+        this.senha = senha;
+    }
+    
     
     public String getNome() {
         return nome;
@@ -44,5 +56,37 @@ public class Funcionario
 
     public void setId(int id) {
         this.id = id;
+    }
+    
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(String funcao) {
+        this.funcao = funcao;
+    }
+    
+    public void setSenha(String senha){
+        this.senha = senha;
+    }
+    
+    public String getSenha(){
+        return senha;
     }
 }

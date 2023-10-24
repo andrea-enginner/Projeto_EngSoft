@@ -8,7 +8,7 @@ public class Projeto_es2
 
     public static void main(String[] args) 
     {
-           Funcionario f = new Funcionario();
+           Funcionario f = new Funcionario("nome","sobrenome","cpf","funcao","senha");
            String nome;
            Scanner leitor = new Scanner(System.in);
            
