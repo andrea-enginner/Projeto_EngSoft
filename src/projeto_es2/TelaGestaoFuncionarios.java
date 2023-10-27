@@ -243,6 +243,8 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
             return;
         }
         
+        //ADD informações no Banco de Dados
+        
         Funcionario novoFuncionario = new Funcionario(nome,sobrenome,cpf,funcao,senha);
         
         DefaultTableModel tableFuncionarios = (DefaultTableModel) TableFuncionarios.getModel();
@@ -270,6 +272,12 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
         }
         
         DefaultTableModel tableFuncionarios = (DefaultTableModel) TableFuncionarios.getModel();
+        
+        //CPF para busca no Banco de Dados
+        String cpf = (String)TableFuncionarios.getValueAt(linhaSelecionada, 2);
+        
+        
+        //Remover as informações do funcionário selecionado da tabela
         
         tableFuncionarios.removeRow(linhaSelecionada);
         
@@ -314,13 +322,14 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
             String sobrenome = (String)TableFuncionarios.getValueAt(linha, 1);
             String cpf = (String)TableFuncionarios.getValueAt(linha, 2);
             String funcao = (String)TableFuncionarios.getValueAt(linha, 3);
-            //String senha = ;
+            
+            //String senha = ; Buscar no Banco de dados
             
             TextNome.setText(nome);
             TextSobrenome.setText(sobrenome);
             TextCPF.setText(cpf);
             TextFuncao.setText(funcao);
-            TextSenha.setText("");
+            //TextSenha.setText(senha);
         }
     }//GEN-LAST:event_TableFuncionariosMouseClicked
 
@@ -331,20 +340,32 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
         if(linhaSelecionada == -1){
             JOptionPane.showMessageDialog(this, "Por Favor, Selecione uma Linha da Tabela!");
         }else{
-            TableFuncionarios.setValueAt(TextNome.getText(), linhaSelecionada, 0);
-            TableFuncionarios.setValueAt(TextSobrenome.getText(), linhaSelecionada, 1);
-            TableFuncionarios.setValueAt(TextCPF.getText(), linhaSelecionada, 2);
-            TableFuncionarios.setValueAt(TextFuncao.getText(), linhaSelecionada, 3);
+            
+            //CPF para busca no Banco de Dados, para editar;
+            String cpf = (String)TableFuncionarios.getValueAt(linhaSelecionada, 2);
+            
+            
+            
+            setTableFuncionarios(TextNome.getText(),TextSobrenome.getText(),TextCPF.getText(),
+                    TextFuncao.getText(),linhaSelecionada);
+            
+            TextNome.setText("");
+            TextSobrenome.setText("");
+            TextFuncao.setText("");
+            TextCPF.setText("");
+            TextSenha.setText("");
             
         }
-        
-        TextNome.setText("");
-        TextSobrenome.setText("");
-        TextFuncao.setText("");
-        TextCPF.setText("");
-        TextSenha.setText("");
     }//GEN-LAST:event_ButtonEditarActionPerformed
 
+    public void setTableFuncionarios(String nome, String sobrenome, String cpf, String funcao, int linha){
+        
+        TableFuncionarios.setValueAt(nome, linha, 0);
+        TableFuncionarios.setValueAt(sobrenome, linha, 1);
+        TableFuncionarios.setValueAt(cpf, linha, 2);
+        TableFuncionarios.setValueAt(funcao, linha, 3);
+    }
+    
     /**
      * @param args the command line arguments
      */
