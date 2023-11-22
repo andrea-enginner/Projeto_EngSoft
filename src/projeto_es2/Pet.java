@@ -1,8 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package projeto_es2;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 /**
  *
@@ -16,6 +18,43 @@ public class Pet {
     private String proprietario;
     private String data;
     private String historico;
+    private int cpfdono;
+    
+    public void addPet(Pet P)
+    {
+        Connection conn = Banco.getConnection();
+        String sql = "INSERT INTO pet VALUES(?,?,?,?,?,?)";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        {
+            smt.setInt(1, getCpfdono());
+            smt.setString(2, getData());
+            smt.setString(3, getNome());
+            smt.setString(4, getProprietario());
+            smt.setString(5, getRaca());
+            smt.setString(6, getEspecie());
+            ResultSet rs = smt.executeQuery();
+            
+            conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public Pet()
+    {
+        
+    }
+    public Pet(String nome, String especie, String raca, String proprietario, String data)
+    {
+        this.nome = nome;
+        this.especie = especie;
+        this.raca = raca;
+        this.proprietario = proprietario;
+        this.data = data;
+    }
 
     /**
      * @return the nome
@@ -99,6 +138,20 @@ public class Pet {
      */
     public void setHistorico(String historico) {
         this.historico = historico;
+    }
+
+    /**
+     * @return the cpfdono
+     */
+    public int getCpfdono() {
+        return cpfdono;
+    }
+
+    /**
+     * @param cpfdono the cpfdono to set
+     */
+    public void setCpfdono(int cpfdono) {
+        this.cpfdono = cpfdono;
     }
     
     
