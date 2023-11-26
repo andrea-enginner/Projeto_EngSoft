@@ -12,7 +12,9 @@ import javax.swing.table.DefaultTableModel;
  * @author vitor
  */
 public class TelaGestaoFuncionarios extends javax.swing.JFrame {
-
+    
+    Funcionario F = new Funcionario();
+    
     /**
      * Creates new form TelaGestaoFuncionarios
      */
@@ -232,24 +234,25 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
     private void ButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAdicionarActionPerformed
         // TODO add your handling code here:
         
-        String nome = TextNome.getText();
-        String sobrenome = TextSobrenome.getText();
-        String cpf = TextCPF.getText();
-        String funcao = TextFuncao.getText();
+        F.setNome(TextNome.getText());
+        F.setSobrenome(TextSobrenome.getText());
+        F.setCpf(TextCPF.getText());
+        F.setFuncao(TextFuncao.getText());
         String senha = TextSenha.getText();
         
-        if(nome.isEmpty()||sobrenome.isEmpty()||cpf.isEmpty()||funcao.isEmpty()||senha.isEmpty()){
+        if(F.getNome().isEmpty()||F.getSobrenome().isEmpty()||F.getCpf().isEmpty()||F.getFuncao().isEmpty()||senha.isEmpty()){
             JOptionPane.showMessageDialog(this, "Por Favor, Preencha todos os campos!");
             return;
         }
         
-        //ADD informações no Banco de Dados
+        F.setSenha(String_Int(senha));
         
-        Funcionario novoFuncionario = new Funcionario(nome,sobrenome,cpf,funcao,senha);
+        //ADD informações no Banco de Dados
+        F.addFuncionario(F);
         
         DefaultTableModel tableFuncionarios = (DefaultTableModel) TableFuncionarios.getModel();
         
-        Object[] newrow = {nome,sobrenome,cpf,funcao};
+        Object[] newrow = {F.getNome(),F.getSobrenome(),F.getCpf(),F.getFuncao()};
         
         tableFuncionarios.addRow(newrow);
         
@@ -274,8 +277,9 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
         DefaultTableModel tableFuncionarios = (DefaultTableModel) TableFuncionarios.getModel();
         
         //CPF para busca no Banco de Dados
-        String cpf = (String)TableFuncionarios.getValueAt(linhaSelecionada, 2);
+        F.setCpf((String)TableFuncionarios.getValueAt(linhaSelecionada, 2));
         
+        F.deleteFuncionario();
         
         //Remover as informações do funcionário selecionado da tabela
         
@@ -297,10 +301,6 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
     private void ButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonVoltarActionPerformed
         // TODO add your handling code here:
         
-        TelaInicial TI = new TelaInicial();
-        
-        TI.setVisible(true);
-        
         this.setVisible(false);
     }//GEN-LAST:event_ButtonVoltarActionPerformed
 
@@ -318,18 +318,17 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
         if(evt.getClickCount() == 1){
             int linha = TableFuncionarios.getSelectedRow();
             
-            String nome = (String)TableFuncionarios.getValueAt(linha, 0);
-            String sobrenome = (String)TableFuncionarios.getValueAt(linha, 1);
-            String cpf = (String)TableFuncionarios.getValueAt(linha, 2);
-            String funcao = (String)TableFuncionarios.getValueAt(linha, 3);
+            F.setNome((String)TableFuncionarios.getValueAt(linha, 0));
+            F.setSobrenome((String)TableFuncionarios.getValueAt(linha, 1));
+            F.setCpf((String)TableFuncionarios.getValueAt(linha, 2));
+            F.setFuncao((String)TableFuncionarios.getValueAt(linha, 3));
+            F.setSenha(1);
             
-            //String senha = ; Buscar no Banco de dados
-            
-            TextNome.setText(nome);
-            TextSobrenome.setText(sobrenome);
-            TextCPF.setText(cpf);
-            TextFuncao.setText(funcao);
-            //TextSenha.setText(senha);
+            TextNome.setText(F.getNome());
+            TextSobrenome.setText(F.getSobrenome());
+            TextCPF.setText(F.getCpf());
+            TextFuncao.setText(F.getFuncao());
+            TextSenha.setText(Int_String(F.getSenha()));
         }
     }//GEN-LAST:event_TableFuncionariosMouseClicked
 
@@ -341,13 +340,17 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por Favor, Selecione uma Linha da Tabela!");
         }else{
             
-            //CPF para busca no Banco de Dados, para editar;
-            String cpf = (String)TableFuncionarios.getValueAt(linhaSelecionada, 2);
+            F.setNome(TextNome.getText());
+            F.setSobrenome(TextSobrenome.getText());
+            F.setFuncao(TextFuncao.getText());
+            F.setSenha(String_Int(TextSenha.getText()));
             
+            F.updateNomeFuncionario(F, F.getNome());
+            F.updateSobrenomeFuncionario(F, F.getSobrenome());
+            F.updateFuncaoFuncionario(F, F.getFuncao());
+            F.updateSenhaFuncionario(F, F.getSenha());
             
-            
-            setTableFuncionarios(TextNome.getText(),TextSobrenome.getText(),TextCPF.getText(),
-                    TextFuncao.getText(),linhaSelecionada);
+            setTableFuncionarios(F.getNome(),F.getSobrenome(),F.getCpf(),F.getFuncao(),linhaSelecionada);
             
             TextNome.setText("");
             TextSobrenome.setText("");
@@ -364,6 +367,19 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
         TableFuncionarios.setValueAt(sobrenome, linha, 1);
         TableFuncionarios.setValueAt(cpf, linha, 2);
         TableFuncionarios.setValueAt(funcao, linha, 3);
+    }
+    
+    public int String_Int(String s){
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            System.err.println("Erro ao converter a string para inteiro: " + e.getMessage());
+            return 0;
+        }
+    }
+    
+    public String Int_String(int numero) {
+        return String.valueOf(numero);
     }
     
     /**

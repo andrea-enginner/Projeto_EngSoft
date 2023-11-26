@@ -11,19 +11,17 @@ import javax.swing.JOptionPane;
  * @author vitor
  */
 public class TelaInicial extends javax.swing.JFrame {
-
+    
+    TelaCadastroPets TP = new TelaCadastroPets();
+    
+    TelaGestaoFuncionarios T = new TelaGestaoFuncionarios();
+    
     /**
      * Creates new form TelaInicial
      */
     public TelaInicial() {
         initComponents();
         
-        ButtonVoltar.setVisible(false);
-        ButtonConfirmar.setVisible(false);
-        jLabel1.setVisible(false);
-        jLabel2.setVisible(false);
-        TextSenha.setVisible(false);
-        TextCPF.setVisible(false);
     }
 
     /**
@@ -37,12 +35,6 @@ public class TelaInicial extends javax.swing.JFrame {
 
         ButtonCadastrarPets = new javax.swing.JButton();
         ButtonGestaoFuncionarios = new javax.swing.JButton();
-        ButtonConfirmar = new javax.swing.JButton();
-        TextSenha = new javax.swing.JTextField();
-        TextCPF = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        ButtonVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,44 +54,15 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
 
-        ButtonConfirmar.setText("Confirmar");
-        ButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonConfirmarActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("CPF:");
-
-        jLabel2.setText("Senha:");
-
-        ButtonVoltar.setText("Voltar");
-        ButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonVoltarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(198, 198, 198)
-                        .addComponent(ButtonCadastrarPets, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(116, 116, 116)
-                        .addComponent(ButtonGestaoFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(361, 361, 361)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextSenha)
-                            .addComponent(TextCPF)
-                            .addComponent(ButtonConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ButtonVoltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(198, 198, 198)
+                .addComponent(ButtonCadastrarPets, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(116, 116, 116)
+                .addComponent(ButtonGestaoFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(166, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -109,19 +72,7 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonCadastrarPets, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ButtonGestaoFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TextCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TextSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
-                .addComponent(ButtonConfirmar)
-                .addGap(26, 26, 26)
-                .addComponent(ButtonVoltar)
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addContainerGap(398, Short.MAX_VALUE))
         );
 
         pack();
@@ -131,69 +82,12 @@ public class TelaInicial extends javax.swing.JFrame {
     private void ButtonGestaoFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGestaoFuncionariosActionPerformed
         // TODO add your handling code here:
         
-        ButtonCadastrarPets.setVisible(false);
-        ButtonGestaoFuncionarios.setVisible(false);
-        
-        ButtonVoltar.setVisible(true);
-        ButtonConfirmar.setVisible(true);
-        jLabel1.setVisible(true);
-        jLabel2.setVisible(true);
-        TextSenha.setVisible(true);
-        TextCPF.setVisible(true);
+        T.setVisible(true);
     }//GEN-LAST:event_ButtonGestaoFuncionariosActionPerformed
 
-    private void ButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConfirmarActionPerformed
-        // TODO add your handling code here:
-        
-        String cpf = TextCPF.getText();
-        String senha = TextSenha.getText();
-        
-        String nome = "Joao";
-        String sobrenome = "Silva";
-        String funcao = "Administrador";
-        int linha = 0;
-        
-        //Verificar senha e Cpf no Banco de Dados
-        
-        if(cpf.equals("12345678901")&&senha.equals("teste")){
-            TelaGestaoFuncionarios TGF = new TelaGestaoFuncionarios();
-            
-            //ADD Percorrer o Banco de Dados Adicionando as informações dos funcionários na tabela
-            
-            //ADD informações na tabela
-            //TGF.setTableFuncionarios(nome, sobrenome, cpf, funcao, linha);
-        
-            TGF.setVisible(true);
-        
-            this.setVisible(false);
-            
-        }else{
-            JOptionPane.showMessageDialog(this, "Senha ou CPF incorreto!");
-        }
-    }//GEN-LAST:event_ButtonConfirmarActionPerformed
-
-    private void ButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonVoltarActionPerformed
-        // TODO add your handling code here:
-        
-        ButtonCadastrarPets.setVisible(true);
-        ButtonGestaoFuncionarios.setVisible(true);
-        
-        ButtonVoltar.setVisible(false);
-        ButtonConfirmar.setVisible(false);
-        jLabel1.setVisible(false);
-        jLabel2.setVisible(false);
-        TextSenha.setVisible(false);
-        TextCPF.setVisible(false);
-    }//GEN-LAST:event_ButtonVoltarActionPerformed
-
     private void ButtonCadastrarPetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCadastrarPetsActionPerformed
-        // TODO add your handling code here:
-        
-        TelaCadastroPets TP = new TelaCadastroPets();
-        
+        // TODO add your handling code here:      
         TP.setVisible(true);
-        
-        this.setVisible(false);
     }//GEN-LAST:event_ButtonCadastrarPetsActionPerformed
   
     /**
@@ -233,12 +127,6 @@ public class TelaInicial extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonCadastrarPets;
-    private javax.swing.JButton ButtonConfirmar;
     private javax.swing.JButton ButtonGestaoFuncionarios;
-    private javax.swing.JButton ButtonVoltar;
-    private javax.swing.JTextField TextCPF;
-    private javax.swing.JTextField TextSenha;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

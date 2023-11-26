@@ -18,6 +18,8 @@ public class TelaCadastroPets extends javax.swing.JFrame {
 
     MaskFormatter mfData;
     
+    Pet P = new Pet();
+    
     /**
      * Creates new form TelaCadastroPets
      */
@@ -57,11 +59,12 @@ public class TelaCadastroPets extends javax.swing.JFrame {
         TextHistorico = new javax.swing.JTextArea();
         ButtonVoltar = new javax.swing.JButton();
         TextData = new javax.swing.JFormattedTextField(mfData);
+        TextCpfDono = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         jLabel1.setText("Nome:");
 
@@ -99,6 +102,14 @@ public class TelaCadastroPets extends javax.swing.JFrame {
             }
         });
 
+        TextCpfDono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextCpfDonoActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("CPF do Proprietário:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,10 +129,6 @@ public class TelaCadastroPets extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TextData, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -133,7 +140,15 @@ public class TelaCadastroPets extends javax.swing.JFrame {
                                         .addComponent(TextNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                                         .addComponent(TextEspecie, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(TextRaca, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addComponent(TextProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(TextProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(TextData, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(TextCpfDono, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 93, Short.MAX_VALUE)))
                 .addGap(192, 192, 192))
         );
@@ -158,15 +173,19 @@ public class TelaCadastroPets extends javax.swing.JFrame {
                     .addComponent(TextProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(TextCpfDono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(TextData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(185, 185, 185))
                     .addComponent(jScrollPane1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonCadastrar)
                     .addComponent(ButtonVoltar))
@@ -184,17 +203,22 @@ public class TelaCadastroPets extends javax.swing.JFrame {
     private void ButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCadastrarActionPerformed
         // TODO add your handling code here:
         
-        String nome = TextNome.getText();
-        String especie = TextEspecie.getText();
-        String raca = TextRaca.getText();
-        String proprietario = TextProprietario.getText();
-        String data = TextData.getText();
-        String historico = TextHistorico.getText();
+        P.setNome(TextNome.getText());
+        P.setRaca(TextRaca.getText());
+        P.setEspecie(TextEspecie.getText());
+        P.setProprietario(TextProprietario.getText());
+        P.setData(TextData.getText());
+        P.setHistorico(TextHistorico.getText());
+        String CpfDono = TextCpfDono.getText();
         
-        if(nome.isEmpty()||especie.isEmpty()||raca.isEmpty()||proprietario.isEmpty()||data.equals("  /  /    ")){
+        if(P.getNome().isEmpty()||P.getEspecie().isEmpty()||P.getRaca().isEmpty()||P.getProprietario().isEmpty()||P.getData().equals("  /  /    ")|| CpfDono.isEmpty()){
             JOptionPane.showMessageDialog(this, "Por Favor, Preencha todos os campos corretamente!");
             return;
         }
+        
+        P.setCpfdono(String_Int(TextCpfDono.getText()));
+        
+        P.addPet(P);
         
         TextNome.setText("");
         TextEspecie.setText("");
@@ -202,18 +226,32 @@ public class TelaCadastroPets extends javax.swing.JFrame {
         TextProprietario.setText("");
         TextData.setText("");
         TextHistorico.setText("");
+        TextCpfDono.setText("");
         
         JOptionPane.showMessageDialog(this, "Pet Cadastrado!");
     }//GEN-LAST:event_ButtonCadastrarActionPerformed
 
     private void ButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonVoltarActionPerformed
-        // TODO add your handling code here:
-        TelaInicial TI = new TelaInicial();
-        
-        TI.setVisible(true);
-        
+        // TODO add your handling code here: 
         this.setVisible(false);
     }//GEN-LAST:event_ButtonVoltarActionPerformed
+
+    private int String_Int(String s){
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            System.err.println("Erro ao converter a string para inteiro: " + e.getMessage());
+            return 0;
+        }
+    }
+    
+    private String Int_String(int numero) {
+        return String.valueOf(numero);
+    }
+    
+    private void TextCpfDonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextCpfDonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextCpfDonoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,6 +291,7 @@ public class TelaCadastroPets extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonCadastrar;
     private javax.swing.JButton ButtonVoltar;
+    private javax.swing.JTextField TextCpfDono;
     private javax.swing.JFormattedTextField TextData;
     private javax.swing.JTextField TextEspecie;
     private javax.swing.JTextArea TextHistorico;
@@ -266,6 +305,7 @@ public class TelaCadastroPets extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

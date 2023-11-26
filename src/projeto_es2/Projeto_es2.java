@@ -7,9 +7,9 @@ public class Projeto_es2
 
     public static void main(String[] args) 
     {
-           Funcionario f = new Funcionario("nome", "sobrenome", 1234567891,"funcionario", 123);
+           //Funcionario f = new Funcionario("nome", "sobrenome", 1234567891,"funcionario", 123);
            
-           f.addFuncionario(f);
+           //f.addFuncionario(f);
     }
     
 }
