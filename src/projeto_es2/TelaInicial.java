@@ -81,7 +81,8 @@ public class TelaInicial extends javax.swing.JFrame {
 
     private void ButtonGestaoFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGestaoFuncionariosActionPerformed
         // TODO add your handling code here:
-        
+        T.ClearTable();
+        T.SetTable();
         T.setVisible(true);
     }//GEN-LAST:event_ButtonGestaoFuncionariosActionPerformed
 

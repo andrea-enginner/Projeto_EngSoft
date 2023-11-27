@@ -13,6 +13,8 @@ public class Funcionario
     private String cpf;
     private int senha;
     
+    public List<Funcionario> funclist = new ArrayList<Funcionario>();
+    
     public void addFuncionario(Funcionario F)
     {
         Connection conn = Banco.getConnection();
@@ -39,20 +41,34 @@ public class Funcionario
     public void readFuncionario()
     {
         Connection conn = Banco.getConnection();
+        
         String sql = "SELECT * FROM funcionario";
         
         try(ResultSet rs = conn.createStatement().executeQuery(sql))
         {
            while(rs.next())
            {
-               System.out.println("Funcionario: "+rs.getString("nome")+" " + rs.getString("sobrenome") +" cpf: "+ rs.getString("pkcpf")+" funcao: "+ rs.getString("funcao"));
+               Funcionario aux = new Funcionario();
+               
+               aux.cpf = rs.getString("pkcpf");
+               aux.nome = rs.getString("nome");
+               aux.sobrenome = rs.getString("sobrenome");
+               aux.funcao = rs.getString("funcao");
+               aux.senha = rs.getInt("senha");
+               
+               funclist.add(aux);
            }
            conn.close();
+           
+           for(int i = 0; i < funclist.size(); i++)
+           {
+               System.out.println(funclist.get(i).nome+funclist.get(i).sobrenome+funclist.get(i).cpf+funclist.get(i).funcao);
+           }
         }
         catch(SQLException e)
         {
             e.printStackTrace();
-        }    
+        }     
     }
     
 
@@ -256,5 +272,20 @@ public class Funcionario
     
     public int getSenha(){
         return senha;
+    }
+    
+    public void clearList(){
+        funclist.clear();
+    }
+    
+    public int getSize(){
+        return funclist.size();
+    }
+    
+    public void setFuncionario(int i){
+        setNome(funclist.get(i).nome);
+        setSobrenome(funclist.get(i).sobrenome);
+        setCpf(funclist.get(i).cpf);
+        setFuncao(funclist.get(i).funcao);
     }
 }

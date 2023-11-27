@@ -382,6 +382,32 @@ public class TelaGestaoFuncionarios extends javax.swing.JFrame {
         return String.valueOf(numero);
     }
     
+    public void SetTable(){
+        F.readFuncionario();
+        
+        int i;
+        int size = F.getSize();
+        
+        for(i = 0;i < size; i++){
+            
+            F.setFuncionario(i);
+        
+            DefaultTableModel tableFuncionarios = (DefaultTableModel) TableFuncionarios.getModel();
+        
+            Object[] newrow = {F.getNome(),F.getSobrenome(),F.getCpf(),F.getFuncao()};
+        
+            tableFuncionarios.addRow(newrow);
+        }
+        
+        F.clearList();
+    }
+    
+    public void ClearTable(){
+        DefaultTableModel tableFuncionarios = (DefaultTableModel) TableFuncionarios.getModel();
+        
+        tableFuncionarios.setRowCount(0);
+    }
+    
     /**
      * @param args the command line arguments
      */
