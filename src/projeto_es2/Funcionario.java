@@ -39,15 +39,30 @@ public class Funcionario
     public void readFuncionario()
     {
         Connection conn = Banco.getConnection();
+        List<Funcionario> funclist = new ArrayList<Funcionario>();
+        
         String sql = "SELECT * FROM funcionario";
         
         try(ResultSet rs = conn.createStatement().executeQuery(sql))
         {
            while(rs.next())
            {
-               System.out.println("Funcionario: "+rs.getString("nome")+" " + rs.getString("sobrenome") +" cpf: "+ rs.getString("pkcpf")+" funcao: "+ rs.getString("funcao"));
+               Funcionario aux = new Funcionario();
+               
+               aux.cpf = rs.getString("pkcpf");
+               aux.nome = rs.getString("nome");
+               aux.sobrenome = rs.getString("sobrenome");
+               aux.funcao = rs.getString("funcao");
+               aux.senha = rs.getInt("senha");
+               
+               funclist.add(aux);
            }
            conn.close();
+           
+           for(int i = 0; i < funclist.size(); i++)
+           {
+               System.out.println(funclist.get(i).funcao);
+           }
         }
         catch(SQLException e)
         {
