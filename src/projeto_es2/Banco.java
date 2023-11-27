@@ -6,7 +6,7 @@ public class Banco
 {   
     private final static String url = "jdbc:postgresql://localhost:5432/clinicavet";
     private final static String usuario = "postgres";
-    private final static String senha = "postgres";
+    private final static String senha = "bancodedados";
     
     public static Connection getConnection()
     {
