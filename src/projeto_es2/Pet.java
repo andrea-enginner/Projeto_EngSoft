@@ -183,7 +183,7 @@ public class Pet {
     public Pet (String cpf) throws SQLException
     {
         Connection conn = Banco.getConnection();
-        PreparedStatement smt = conn.prepareStatement("SELECT * FROM funcionario WHERE pkcpf = ?");
+        PreparedStatement smt = conn.prepareStatement("SELECT * FROM pet WHERE pkcpfdono = ?");
         
         smt.setString(1, cpf);
         ResultSet rs = smt.executeQuery();
@@ -198,11 +198,137 @@ public class Pet {
         
         conn.close();
          
-    } 
+    }
+    
+    public void agendarConsulta(Pet p, String data, String horario, String sintomas)
+    {
+        Connection conn = Banco.getConnection();
+        String sql = "INSERT INTO consulta (pkdata,pkhora,sintomas,cpfdonopet) VALUES(?,?,?,?)";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        { 
+            smt.setString(1, data);
+            smt.setString(2, horario);
+            smt.setString(3, sintomas);
+            smt.setString(4, p.getCpfdono());
+            
+            ResultSet rs = smt.executeQuery();
+            
+            conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateConsultaData(Pet F, String data, String hora, String Ndata)
+    {
 
-    /**
-     * @return the nome
-     */
+        Connection conn = Banco.getConnection();
+        String sql = "UPDATE consulta SET pkdata = ? WHERE pkdata = ? and pkhora = ?";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        {
+            smt.setString(1, Ndata);
+            smt.setString(2, data);
+            smt.setString(3, hora);
+            ResultSet rs = smt.executeQuery();
+            
+            conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateConsultaHora(Pet F, String data, String hora, String Nhora)
+    {
+
+        Connection conn = Banco.getConnection();
+        String sql = "UPDATE consulta SET pkhora = ? WHERE pkdata = ? and pkhora = ?";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        {
+            smt.setString(1, Nhora);
+            smt.setString(2, data);
+            smt.setString(3, hora);
+            ResultSet rs = smt.executeQuery();
+            
+            conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateConsultaSintomas(Pet F, String data, String hora, String sintoma)
+    {
+
+        Connection conn = Banco.getConnection();
+        String sql = "UPDATE consulta SET sintomas = ? WHERE pkdata = ? and pkhora = ?";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        {
+            smt.setString(1, sintoma);
+            smt.setString(2, data);
+            smt.setString(3, hora);
+            ResultSet rs = smt.executeQuery();
+            
+            conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateConsultaMedicamento(Pet F, String data, String hora, String medicamento)
+    {
+
+        Connection conn = Banco.getConnection();
+        String sql = "UPDATE consulta SET medicamento = ? WHERE pkdata = ? and pkhora = ?";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        {
+            smt.setString(1, medicamento);
+            smt.setString(2, data);
+            smt.setString(3, hora);
+            ResultSet rs = smt.executeQuery();
+            
+            conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateConsultaTratamento(Pet F, String data, String hora, String tratamento)
+    {
+
+        Connection conn = Banco.getConnection();
+        String sql = "UPDATE consulta SET tratamento = ? WHERE pkdata = ? and pkhora = ?";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        {
+            smt.setString(1, tratamento);
+            smt.setString(2, data);
+            smt.setString(3, hora);
+            ResultSet rs = smt.executeQuery();
+            
+            conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    
+
     public String getNome() {
         return nome;
     }
@@ -297,7 +423,5 @@ public class Pet {
     public void setCpfdono(String cpfdono) {
         this.cpfdono = cpfdono;
     }
-    
-    
-    
+     
 }
