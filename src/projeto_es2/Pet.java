@@ -203,16 +203,42 @@ public class Pet {
     public void agendarConsulta(Pet p, String data, String horario, String sintomas)
     {
         Connection conn = Banco.getConnection();
-        String sql = "INSERT INTO consulta (pkdata,pkhora,sintomas,cpfdonopet) VALUES(?,?,?,?)";
+        String sql = "SELECT * FROM pet WHERE pkcpfdono = ? AND nomepet = ?";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         { 
-            smt.setString(1, data);
-            smt.setString(2, horario);
-            smt.setString(3, sintomas);
-            smt.setString(4, p.getCpfdono());
+            smt.setString(1, p.getCpfdono());
+            smt.setString(2, p.getNome());
             
             ResultSet rs = smt.executeQuery();
+            
+            if(rs.next() == true)
+            {
+                Connection connt = Banco.getConnection();
+                String sqlt = "INSERT INTO consulta (pkdata,pkhora,sintomas,cpfdonopet) VALUES(?,?,?,?)";
+        
+                try(PreparedStatement smtt = connt.prepareStatement(sqlt))
+                { 
+                    smtt.setString(1, data);
+                    smtt.setString(2, horario);
+                    smtt.setString(3, sintomas);
+                    smtt.setString(4, p.getCpfdono());
+            
+                    ResultSet rst = smtt.executeQuery();
+                   
+                    connt.close();
+                    
+                    System.out.println("Consulta cadastrada");
+                }
+                catch(SQLException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            else
+            {
+                System.out.println("O pet nao esta cadastrado");
+            }
             
             conn.close();
         }
