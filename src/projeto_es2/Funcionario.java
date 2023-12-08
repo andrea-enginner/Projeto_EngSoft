@@ -231,6 +231,39 @@ public class Funcionario
     {
         
     }
+
+     public void funcionarioLogin(String l, String s)
+    {
+        Connection conn = Banco.getConnection();
+        String sql = "SELECT * FROM funcionario";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        {
+            ResultSet rs = smt.executeQuery();
+            while(rs.next())
+            {
+                if(l.equals(rs.getString("pkcpf")))
+                {
+                    System.out.println("Login suave");
+                    if(s.equals(rs.getString("senha")))
+                    {
+                        System.out.println("senha correta");
+                    }
+                    else System.out.println("senha incorreta");
+                }
+                else
+                {
+                    System.out.println("Login incorreto");
+                }
+            }
+            conn.close();              
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
     
     
     public String getNome() {
