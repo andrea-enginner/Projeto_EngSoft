@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package projeto_es2;
 
 import java.sql.Connection;
@@ -19,6 +23,7 @@ public class Pet {
     private String data;
     private String historico;
     private String cpfdono;
+    private String senha;
     
     public void addPet(Pet P)
     {
@@ -170,7 +175,7 @@ public class Pet {
     {
         
     }
-    public Pet(String nome, String especie, String raca, String proprietario, String data, String cpfdono)
+    public Pet(String nome, String especie, String raca, String proprietario, String data, String cpfdono, String senha)
     {
         this.nome = nome;
         this.especie = especie;
@@ -178,6 +183,7 @@ public class Pet {
         this.proprietario = proprietario;
         this.data = data;
         this.cpfdono = cpfdono;
+        this.senha = senha;
     }
     
     public Pet (String cpf) throws SQLException
@@ -195,6 +201,7 @@ public class Pet {
         this.data = rs.getString("pkdata");
         this.especie = rs.getString("especie");
         this.raca = rs.getString("raca");  
+        this.senha = rs.getString("senha");
         
         conn.close();
          
@@ -353,6 +360,38 @@ public class Pet {
         }
     }
     
+    public void petLogin(String l, String s)
+    {
+        Connection conn = Banco.getConnection();
+        String sql = "SELECT * FROM pet";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        {
+            ResultSet rs = smt.executeQuery();
+            while(rs.next())
+            {
+                if(l.equals(rs.getString("pkcpfdono")))
+                {
+                    System.out.println("Login suave");
+                    if(s.equals(rs.getString("senha")))
+                    {
+                        System.out.println("senha correta");
+                    }
+                    else System.out.println("senha incorreta");
+                }
+                else
+                {
+                    System.out.println("Login incorreto");
+                }
+            }
+            conn.close();              
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
     
 
     public String getNome() {
@@ -448,6 +487,20 @@ public class Pet {
      */
     public void setCpfdono(String cpfdono) {
         this.cpfdono = cpfdono;
+    }
+
+    /**
+     * @return the senha
+     */
+    public String getSenha() {
+        return senha;
+    }
+
+    /**
+     * @param senha the senha to set
+     */
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
      
 }
