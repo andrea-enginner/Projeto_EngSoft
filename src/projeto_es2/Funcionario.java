@@ -11,7 +11,9 @@ public class Funcionario
     private String sobrenome;
     private String funcao;
     private String cpf;
-    private int senha;
+    private String senha;
+    
+    public List<Funcionario> funclist = new ArrayList<Funcionario>();
     
     public void addFuncionario(Funcionario F)
     {
@@ -24,7 +26,7 @@ public class Funcionario
             smt.setString(2, getNome());
             smt.setString(3, getSobrenome());
             smt.setString(4, getFuncao());
-            smt.setInt(5, getSenha());
+            smt.setString(5, getSenha());
             ResultSet rs = smt.executeQuery();
             
             conn.close();
@@ -39,7 +41,6 @@ public class Funcionario
     public void readFuncionario()
     {
         Connection conn = Banco.getConnection();
-        List<Funcionario> funclist = new ArrayList<Funcionario>();
         
         String sql = "SELECT * FROM funcionario";
         
@@ -53,43 +54,80 @@ public class Funcionario
                aux.nome = rs.getString("nome");
                aux.sobrenome = rs.getString("sobrenome");
                aux.funcao = rs.getString("funcao");
-               aux.senha = rs.getInt("senha");
+               aux.senha = rs.getString("senha");
                
                funclist.add(aux);
            }
            conn.close();
-           
-           for(int i = 0; i < funclist.size(); i++)
-           {
-               System.out.println(funclist.get(i).funcao);
-           }
         }
         catch(SQLException e)
         {
             e.printStackTrace();
-        }    
+        }     
     }
     
-
-    
-        public void readPet()
+    public void funcionarioLogin(String l, String s)
     {
         Connection conn = Banco.getConnection();
-        String sql = "SELECT * FROM pet";
+        String sql = "SELECT * FROM funcionario";
         
-        try(ResultSet rs = conn.createStatement().executeQuery(sql))
+        try(PreparedStatement smt = conn.prepareStatement(sql))
         {
-           while(rs.next())
-           {
-               System.out.println("Pet: "+rs.getString("nomepet")+" Dono: " + rs.getString("nomeprop") +" Cpf_dono: "+ rs.getString("pkcpfdono")+" Data: "+ rs.getString("pkdata"));
-           }
-           conn.close();
+            ResultSet rs = smt.executeQuery();
+            while(rs.next())
+            {
+                if(l.equals(rs.getString("pkcpf")))
+                {
+                    System.out.println("Login suave");
+                    if(s.equals(rs.getString("senha")))
+                    {
+                        System.out.println("senha correta");
+                        setFuncao(rs.getString("funcao"));
+                        setNome(rs.getString("nome"));
+                    }
+                    else System.out.println("senha incorreta");
+                }
+                else
+                {
+                    System.out.println("Login incorreto");
+                }
+            }
+            conn.close();              
         }
         catch(SQLException e)
         {
             e.printStackTrace();
         }
     }
+    
+    public void recuperarsenha(String l)
+    {
+        Connection conn = Banco.getConnection();
+        String sql = "SELECT * FROM funcionario";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        {
+            ResultSet rs = smt.executeQuery();
+            while(rs.next())
+            {
+                if(l.equals(rs.getString("pkcpf")))
+                {
+                    System.out.println("Login suave");
+                    setSenha(rs.getString("senha"));
+                }
+                else
+                {
+                    System.out.println("Login incorreto");
+                }
+            }
+            conn.close();              
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+        
     public void updateNomeFuncionario(Funcionario F, String N)
     {
         setNome(N);
@@ -156,7 +194,7 @@ public class Funcionario
                 
     }
     
-    public void updateSenhaFuncionario(Funcionario F, int N)
+    public void updateSenhaFuncionario(Funcionario F, String N)
     {
         setSenha(N);
         
@@ -165,7 +203,7 @@ public class Funcionario
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
-            smt.setInt(1, getSenha());
+            smt.setString(1, getSenha());
             smt.setString(2, getCpf());
             ResultSet rs = smt.executeQuery();
             
@@ -213,13 +251,13 @@ public class Funcionario
         this.nome = rs.getString("nome");
         this.sobrenome = rs.getString("sobrenome");
         this.funcao = rs.getString("funcao");
-        this.senha = rs.getInt("senha");  
+        this.senha = rs.getString("senha");  
         
         conn.close();
          
     } 
 
-    public Funcionario(String nome, String sobrenome, String cpf, String funcao, int senha) {
+    public Funcionario(String nome, String sobrenome, String cpf, String funcao, String senha) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.cpf = cpf;
@@ -231,39 +269,6 @@ public class Funcionario
     {
         
     }
-
-     public void funcionarioLogin(String l, String s)
-    {
-        Connection conn = Banco.getConnection();
-        String sql = "SELECT * FROM funcionario";
-        
-        try(PreparedStatement smt = conn.prepareStatement(sql))
-        {
-            ResultSet rs = smt.executeQuery();
-            while(rs.next())
-            {
-                if(l.equals(rs.getString("pkcpf")))
-                {
-                    System.out.println("Login suave");
-                    if(s.equals(rs.getString("senha")))
-                    {
-                        System.out.println("senha correta");
-                    }
-                    else System.out.println("senha incorreta");
-                }
-                else
-                {
-                    System.out.println("Login incorreto");
-                }
-            }
-            conn.close();              
-        }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-    
     
     
     public String getNome() {
@@ -298,11 +303,26 @@ public class Funcionario
         this.funcao = funcao;
     }
     
-    public void setSenha(int senha){
+    public void setSenha(String senha){
         this.senha = senha;
     }
     
-    public int getSenha(){
+    public String getSenha(){
         return senha;
+    }
+    
+    public void clearList(){
+        funclist.clear();
+    }
+    
+    public int getSize(){
+        return funclist.size();
+    }
+    
+    public void setFuncionario(int i){
+        setNome(funclist.get(i).nome);
+        setSobrenome(funclist.get(i).sobrenome);
+        setCpf(funclist.get(i).cpf);
+        setFuncao(funclist.get(i).funcao);
     }
 }

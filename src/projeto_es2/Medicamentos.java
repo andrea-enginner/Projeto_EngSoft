@@ -1,6 +1,8 @@
 package projeto_es2;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -9,7 +11,9 @@ import java.sql.*;
 public class Medicamentos 
 {
     private String nomemedicamento;
-    private int quantidade;
+    private String quantidade;
+    
+    public List<Medicamentos> funclist = new ArrayList<Medicamentos>();
     
     public void addMedicamento()
     {
@@ -19,7 +23,7 @@ public class Medicamentos
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
             smt.setString(1, getNomemedicamento());
-            smt.setInt(2, getQuantidade());
+            smt.setString(2, getQuantidade());
 
             ResultSet rs = smt.executeQuery();
             
@@ -32,12 +36,37 @@ public class Medicamentos
         }
     }
     
+    public void readMedicamento()
+    {
+        Connection conn = Banco.getConnection();
+        
+        String sql = "SELECT * FROM medicamentos";
+        
+        try(ResultSet rs = conn.createStatement().executeQuery(sql))
+        {
+           while(rs.next())
+           {
+               Medicamentos aux = new Medicamentos();
+               
+               aux.nomemedicamento = rs.getString("pknomemedicamento");
+               aux.quantidade = rs.getString("quantidade");
+               
+               funclist.add(aux);
+           }
+           conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }     
+    }
+    
     public void updateNomemedicamento(Medicamentos m, String N)
     {
        setNomemedicamento(N);
         
         Connection conn = Banco.getConnection();
-        String sql = "UPDATE medicamentos SET nomemedicamento = ? WHERE LOWER(nomemedicamento) = ?";
+        String sql = "UPDATE medicamentos SET pknomemedicamento = ? WHERE pknomemedicamento = ?";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
@@ -53,16 +82,15 @@ public class Medicamentos
         }
     }
     
-    public void updateQtdmedicamento(Medicamentos m, int N)
+    public void updateQtdmedicamento(Medicamentos m)
     {
-       setQuantidade(N);
         
         Connection conn = Banco.getConnection();
-        String sql = "UPDATE medicamentos SET quantidade = ? WHERE LOWER(nomemedicamento) = ?";
+        String sql = "UPDATE medicamentos SET quantidade = ? WHERE pknomemedicamento = ?";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
-            smt.setInt(1, N);
+            smt.setString(1, getQuantidade());
             smt.setString(2, getNomemedicamento());
             ResultSet rs = smt.executeQuery();
             
@@ -73,6 +101,24 @@ public class Medicamentos
             e.printStackTrace();
         }
     }
+    
+    public void deleteMedicamento()
+    {
+        Connection conn = Banco.getConnection();
+        String sql = "DELETE FROM medicamentos WHERE pknomemedicamento = ?";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        { 
+            smt.setString(1, getNomemedicamento());
+            ResultSet rs = smt.executeQuery();
+            
+            conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    } 
 
     /**
      * @return the nomemedicamento
@@ -91,14 +137,27 @@ public class Medicamentos
     /**
      * @return the quantidade
      */
-    public int getQuantidade() {
+    public String getQuantidade() {
         return quantidade;
     }
 
     /**
      * @param quantidade the quantidade to set
      */
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(String quantidade) {
         this.quantidade = quantidade;
+    }
+    
+    public void clearList(){
+        funclist.clear();
+    }
+    
+    public int getSize(){
+        return funclist.size();
+    }
+    
+    public void setMedicamento(int i){
+        setNomemedicamento(funclist.get(i).nomemedicamento);
+        setQuantidade(funclist.get(i).quantidade);
     }
 }

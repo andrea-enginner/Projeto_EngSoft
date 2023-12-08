@@ -1,25 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package projeto_es2;
 
+
+import java.awt.Color;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+
+
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
 
 /**
  *
  * @author vitor
  */
-public class TelaCadastroPets extends javax.swing.JFrame {
+public class TelaCadastroPets extends javax.swing.JPanel {
 
     MaskFormatter mfData;
     
+    Pet P = new Pet();
+    
     /**
-     * Creates new form TelaCadastroPets
+     * Creates new form CadastroPets
      */
     public TelaCadastroPets() {
         
@@ -30,6 +36,10 @@ public class TelaCadastroPets extends javax.swing.JFrame {
         }
         
         initComponents();
+        jScrollPane2.getViewport().setBackground(Color.WHITE);
+        ButtonAdicionar.setBackground(Color.WHITE);
+        ButtonEditar.setBackground(Color.WHITE);
+        ButtonExcluir.setBackground(Color.WHITE);
     }
 
     /**
@@ -41,160 +51,244 @@ public class TelaCadastroPets extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        TextProprietario = new javax.swing.JTextField();
-        TextNome = new javax.swing.JTextField();
-        TextEspecie = new javax.swing.JTextField();
-        TextRaca = new javax.swing.JTextField();
-        ButtonCadastrar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        TextRaca = new javax.swing.JTextField();
+        TextEspecie = new javax.swing.JTextField();
+        TextNome = new javax.swing.JTextField();
+        TextProprietario = new javax.swing.JTextField();
+        TextCpfDono = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         TextHistorico = new javax.swing.JTextArea();
-        ButtonVoltar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TablePet = new projeto_es2.TableDsigne();
+        ButtonAdicionar = new javax.swing.JButton();
+        ButtonExcluir = new javax.swing.JButton();
+        ButtonEditar = new javax.swing.JButton();
         TextData = new javax.swing.JFormattedTextField(mfData);
 
-        jLabel3.setText("jLabel3");
+        setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(1018, 708));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setText("Nome do Pet:");
 
-        jLabel1.setText("Nome:");
-
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Espécie:");
 
-        jLabel4.setText("Raça:");
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setText("Raça:");
 
-        TextProprietario.addActionListener(new java.awt.event.ActionListener() {
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setText("Nome do Proprietário:");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setText("Data de Nascimento:");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setText("CPF do Proprietário:");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel7.setText("Histórico:");
+
+        TextEspecie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TextProprietarioActionPerformed(evt);
+                TextEspecieActionPerformed(evt);
             }
         });
-
-        ButtonCadastrar.setText("Cadastrar");
-        ButtonCadastrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonCadastrarActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Proprietário:");
-
-        jLabel6.setText("Histórico Médico:");
-
-        jLabel7.setText("Data de Nascimento:");
 
         TextHistorico.setColumns(20);
-        TextHistorico.setRows(5);
+        TextHistorico.setRows(8);
         jScrollPane1.setViewportView(TextHistorico);
 
-        ButtonVoltar.setText("Voltar");
-        ButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
+        TablePet.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "Espécies", "Raça", "Proprietário", "CPF"
+            }
+        ));
+        TablePet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablePetMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(TablePet);
+
+        ButtonAdicionar.setText("Adicionar");
+        ButtonAdicionar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonAdicionarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonAdicionarMouseExited(evt);
+            }
+        });
+        ButtonAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonVoltarActionPerformed(evt);
+                ButtonAdicionarActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        ButtonExcluir.setText("Excluir");
+        ButtonExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonExcluirMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonExcluirMouseExited(evt);
+            }
+        });
+        ButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonExcluirActionPerformed(evt);
+            }
+        });
+
+        ButtonEditar.setText("Editar");
+        ButtonEditar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonEditarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonEditarMouseExited(evt);
+            }
+        });
+        ButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonEditarActionPerformed(evt);
+            }
+        });
+
+        TextData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextDataActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(190, 190, 190)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(ButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ButtonCadastrar))
-                            .addComponent(jScrollPane1)))
-                    .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(TextNome)
+                                    .addComponent(TextEspecie)
+                                    .addComponent(TextRaca))
+                                .addGap(165, 165, 165))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(TextData, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ButtonAdicionar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ButtonEditar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ButtonExcluir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TextData, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(TextProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(50, 50, 50)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7))
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(TextNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                                        .addComponent(TextEspecie, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(TextRaca, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addComponent(TextProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 93, Short.MAX_VALUE)))
-                .addGap(192, 192, 192))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(TextCpfDono, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(165, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(TextNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel4)
+                    .addComponent(TextNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(TextEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(TextRaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(TextProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(TextData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                    .addComponent(jLabel6)
+                    .addComponent(TextEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextCpfDono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(185, 185, 185))
-                    .addComponent(jScrollPane1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButtonCadastrar)
-                    .addComponent(ButtonVoltar))
-                .addGap(78, 78, 78))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel7)
+                            .addComponent(TextRaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(TextData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ButtonAdicionar)
+                            .addComponent(ButtonEditar)
+                            .addComponent(ButtonExcluir)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TextProprietarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextProprietarioActionPerformed
+    private void TextEspecieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextEspecieActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_TextProprietarioActionPerformed
+    }//GEN-LAST:event_TextEspecieActionPerformed
 
-    private void ButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCadastrarActionPerformed
+    private void ButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAdicionarActionPerformed
         // TODO add your handling code here:
+        P.setNome(TextNome.getText());
+        P.setRaca(TextRaca.getText());
+        P.setEspecie(TextEspecie.getText());
+        P.setProprietario(TextProprietario.getText());
+        P.setData(TextData.getText());
+        P.setHistorico(TextHistorico.getText());
+        P.setCpfdono(TextCpfDono.getText());
         
-        String nome = TextNome.getText();
-        String especie = TextEspecie.getText();
-        String raca = TextRaca.getText();
-        String proprietario = TextProprietario.getText();
-        String data = TextData.getText();
-        String historico = TextHistorico.getText();
-        
-        if(nome.isEmpty()||especie.isEmpty()||raca.isEmpty()||proprietario.isEmpty()||data.equals("  /  /    ")){
+        if(P.getNome().isEmpty()||P.getEspecie().isEmpty()||P.getRaca().isEmpty()||P.getProprietario().isEmpty()||P.getData().equals("  /  /    ")|| P.getCpfdono().isEmpty()){
             JOptionPane.showMessageDialog(this, "Por Favor, Preencha todos os campos corretamente!");
             return;
         }
+        
+        if(!ValidarCPF()){
+            JOptionPane.showMessageDialog(this, "CPF Invalido!");
+            return;
+        }
+        
+        P.addPet(P);
+        
+        DefaultTableModel tablePet = (DefaultTableModel) TablePet.getModel();
+        
+        Object[] newrow = {P.getNome(),P.getEspecie(), P.getRaca(), P.getProprietario(), P.getCpfdono()};
+        
+        tablePet.addRow(newrow);
         
         TextNome.setText("");
         TextEspecie.setText("");
@@ -202,57 +296,212 @@ public class TelaCadastroPets extends javax.swing.JFrame {
         TextProprietario.setText("");
         TextData.setText("");
         TextHistorico.setText("");
+        TextCpfDono.setText("");
         
         JOptionPane.showMessageDialog(this, "Pet Cadastrado!");
-    }//GEN-LAST:event_ButtonCadastrarActionPerformed
+    
+    }//GEN-LAST:event_ButtonAdicionarActionPerformed
 
-    private void ButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonVoltarActionPerformed
+    private void TextDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextDataActionPerformed
         // TODO add your handling code here:
-        TelaInicial TI = new TelaInicial();
-        
-        TI.setVisible(true);
-        
-        this.setVisible(false);
-    }//GEN-LAST:event_ButtonVoltarActionPerformed
+    }//GEN-LAST:event_TextDataActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroPets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroPets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroPets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroPets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void ButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEditarActionPerformed
+        // TODO add your handling code here:
+        int linhaSelecionada = TablePet.getSelectedRow();
+        
+        if(linhaSelecionada == -1){
+            JOptionPane.showMessageDialog(this, "Por Favor, Selecione uma Linha da Tabela!");
+        }else{
+            if(P.getNome().isEmpty()||P.getEspecie().isEmpty()||P.getRaca().isEmpty()||P.getProprietario().isEmpty()||P.getData().equals("  /  /    ")|| P.getCpfdono().isEmpty()){
+                JOptionPane.showMessageDialog(this, "Por Favor, Preencha todos os campos corretamente!");
+                return;
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaCadastroPets().setVisible(true);
+            if(!ValidarCPF()){
+                JOptionPane.showMessageDialog(this, "CPF Invalido!");
+                return;
+            }else{
+            
+                P.setNome(TextNome.getText());
+                P.setRaca(TextRaca.getText());
+                P.setEspecie(TextEspecie.getText());
+                P.setProprietario(TextProprietario.getText());
+                P.setData(TextData.getText());
+                P.setHistorico(TextHistorico.getText());
+                P.setCpfdono(TextCpfDono.getText());
+            
+                P.updateNomePet(P, P.getNome());
+                P.updateEspeciePet(P, P.getEspecie());
+                P.updateRacaPet(P, P.getRaca());
+                P.updateDataPet(P, P.getData());
+                P.updateNomeDono(P, P.getProprietario());
+            
+                setTablePet(P.getNome(),P.getEspecie(),P.getRaca(),P.getProprietario(), P.getCpfdono(),linhaSelecionada);
+            
+                TextNome.setText("");
+                TextEspecie.setText("");
+                TextRaca.setText("");
+                TextProprietario.setText("");
+                TextData.setText("");
+                TextHistorico.setText("");
+                TextCpfDono.setText("");
             }
-        });
+            
+        }
+    }//GEN-LAST:event_ButtonEditarActionPerformed
+
+    private void ButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonExcluirActionPerformed
+        // TODO add your handling code here:
+        int linhaSelecionada = TablePet.getSelectedRow();
+        
+        if(linhaSelecionada == -1){
+            JOptionPane.showMessageDialog(this, "Por Favor, Selecione uma Linha da Tabela!");
+        }
+        
+        DefaultTableModel tableFuncionarios = (DefaultTableModel) TablePet.getModel();
+        
+        //CPF para busca no Banco de Dados
+        P.setCpfdono((String)TablePet.getValueAt(linhaSelecionada, 5));
+        
+        P.deletePet();
+        
+        //Remover as informações do funcionário selecionado da tabela
+        
+        tableFuncionarios.removeRow(linhaSelecionada);
+        
+        TextNome.setText("");
+        TextEspecie.setText("");
+        TextRaca.setText("");
+        TextProprietario.setText("");
+        TextData.setText("");
+        TextHistorico.setText("");
+        TextCpfDono.setText("");
+        
+        JOptionPane.showMessageDialog(this, "Pet excluido com sucesso!");
+    
+    }//GEN-LAST:event_ButtonExcluirActionPerformed
+
+    private void TablePetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablePetMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 1){
+            int linha = TablePet.getSelectedRow();
+            
+            P.setNome((String)TablePet.getValueAt(linha, 0));
+            P.setEspecie((String)TablePet.getValueAt(linha, 1));
+            P.setRaca((String)TablePet.getValueAt(linha, 2));
+            P.setProprietario((String)TablePet.getValueAt(linha, 3));
+            P.setCpfdono((String)TablePet.getValueAt(linha, 4));
+            
+            TextNome.setText(P.getNome());
+            TextEspecie.setText(P.getEspecie());
+            TextRaca.setText(P.getRaca());
+            TextProprietario.setText(P.getProprietario());
+            TextCpfDono.setText(P.getCpfdono());
+            
+        }
+    }//GEN-LAST:event_TablePetMouseClicked
+
+    private void ButtonAdicionarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonAdicionarMouseEntered
+        // TODO add your handling code here:
+        ButtonAdicionar.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_ButtonAdicionarMouseEntered
+
+    private void ButtonAdicionarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonAdicionarMouseExited
+        // TODO add your handling code here:
+        ButtonAdicionar.setBackground(Color.WHITE);
+    }//GEN-LAST:event_ButtonAdicionarMouseExited
+
+    private void ButtonEditarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonEditarMouseEntered
+        // TODO add your handling code here:
+        ButtonEditar.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_ButtonEditarMouseEntered
+
+    private void ButtonEditarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonEditarMouseExited
+        // TODO add your handling code here:
+        ButtonEditar.setBackground(Color.WHITE);
+    }//GEN-LAST:event_ButtonEditarMouseExited
+
+    private void ButtonExcluirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonExcluirMouseEntered
+        // TODO add your handling code here:
+        ButtonExcluir.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_ButtonExcluirMouseEntered
+
+    private void ButtonExcluirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonExcluirMouseExited
+        // TODO add your handling code here:
+        ButtonExcluir.setBackground(Color.WHITE);
+    }//GEN-LAST:event_ButtonExcluirMouseExited
+
+    public void setTablePet(String nome, String especie, String raca, String prop, String cpf, int linha){
+        
+        TablePet.setValueAt(nome, linha, 0);
+        TablePet.setValueAt(especie, linha, 1);
+        TablePet.setValueAt(raca, linha, 2);
+        TablePet.setValueAt(prop, linha, 3);
+        TablePet.setValueAt(cpf, linha, 4);
+    }
+    
+    public void SetTable(){
+        P.readPet();
+        
+        int i;
+        int size = P.getSize();
+        
+        for(i = 0;i < size; i++){
+            
+            P.setPet(i);
+        
+            DefaultTableModel tablePet = (DefaultTableModel) TablePet.getModel();
+        
+            Object[] newrow = {P.getNome(),P.getEspecie(),P.getRaca(),P.getProprietario(),P.getCpfdono()};
+        
+            tablePet.addRow(newrow);
+        }
+        
+        P.clearList();
+    }
+    
+    public boolean ValidarCPF() {
+        // Remove caracteres não numéricos
+        String cpf = P.getCpfdono();
+        
+        cpf = cpf.replaceAll("[^0-9]", "");
+
+        // Verifica se o CPF possui 11 dígitos
+        if (cpf.length() != 11) {
+            return false;
+        }
+
+        // Aplica o algoritmo de validação do CPF
+        int soma = 0;
+        for (int i = 0; i < 9; i++) {
+            soma += (cpf.charAt(i) - '0') * (10 - i);
+        }
+
+        int digito1 = 11 - (soma % 11);
+        if (digito1 > 9) {
+            digito1 = 0;
+        }
+
+        soma = 0;
+        for (int i = 0; i < 10; i++) {
+            soma += (cpf.charAt(i) - '0') * (11 - i);
+        }
+
+        int digito2 = 11 - (soma % 11);
+        if (digito2 > 9) {
+            digito2 = 0;
+        }
+
+        // Verifica se os dígitos calculados são iguais aos dígitos informados
+        return (digito1 == (cpf.charAt(9) - '0') && digito2 == (cpf.charAt(10) - '0'));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonCadastrar;
-    private javax.swing.JButton ButtonVoltar;
+    private javax.swing.JButton ButtonAdicionar;
+    private javax.swing.JButton ButtonEditar;
+    private javax.swing.JButton ButtonExcluir;
+    private projeto_es2.TableDsigne TablePet;
+    private javax.swing.JTextField TextCpfDono;
     private javax.swing.JFormattedTextField TextData;
     private javax.swing.JTextField TextEspecie;
     private javax.swing.JTextArea TextHistorico;
@@ -267,5 +516,6 @@ public class TelaCadastroPets extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

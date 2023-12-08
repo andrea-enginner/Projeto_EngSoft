@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package projeto_es2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -23,21 +21,71 @@ public class Pet {
     private String data;
     private String historico;
     private String cpfdono;
-    private String senha;
+    
+    public List<Pet> funclist = new ArrayList<Pet>();
+    
+    public void readPet(){
+        
+        Connection conn = Banco.getConnection();
+        String sql = "SELECT * FROM pet";
+        
+        try(ResultSet rs = conn.createStatement().executeQuery(sql))
+        {
+           while(rs.next())
+           {
+              Pet aux = new Pet();
+              
+              aux.nome = rs.getString("nomepet");
+              aux.especie = rs.getString("especie");
+              aux.raca = rs.getString("raca");
+              aux.proprietario = rs.getString("nomeprop");
+              aux.cpfdono = rs.getString("pkcpfdono");
+              
+              funclist.add(aux);
+           }
+           conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
     
     public void addPet(Pet P)
     {
         Connection conn = Banco.getConnection();
-        String sql = "INSERT INTO pet VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO pet VALUES(?,?,?,?,?,?,?)";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
-            smt.setString(1, getCpfdono());
-            smt.setString(2, getData());
-            smt.setString(3, getNome());
+            smt.setString(1, getNome());
+            smt.setString(2, getEspecie());
+            smt.setString(3, getRaca());
             smt.setString(4, getProprietario());
-            smt.setString(5, getRaca());
-            smt.setString(6, getEspecie());
+            smt.setString(5, getHistorico());
+            smt.setString(6, getCpfdono());
+            smt.setString(7, getData());
+            ResultSet rs = smt.executeQuery();
+            
+            conn.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public void setUpdatePet(Pet F, String N)
+    {
+        setNome(N);
+        
+        Connection conn = Banco.getConnection();
+        String sql = "UPDATE pet SET nomepet = ? WHERE pkcpfdono = ?";
+        
+        try(PreparedStatement smt = conn.prepareStatement(sql))
+        {
+            smt.setString(1, getNome());
+            smt.setString(2, getCpfdono());
             ResultSet rs = smt.executeQuery();
             
             conn.close();
@@ -74,7 +122,7 @@ public class Pet {
         setData(N);
         
         Connection conn = Banco.getConnection();
-        String sql = "UPDATE pet SET pkdata = ? WHERE pkcpfdono = ?";
+        String sql = "UPDATE pet SET data = ? WHERE pkcpfdono = ?";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
@@ -156,7 +204,7 @@ public class Pet {
     public void deletePet()
     {
         Connection conn = Banco.getConnection();
-        String sql = "DELETE FROM funcionario WHERE pkcpf = ?";
+        String sql = "DELETE FROM pet WHERE pkcpfdono = ?";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         { 
@@ -169,13 +217,12 @@ public class Pet {
         {
             e.printStackTrace();
         }
-    }
-    
+    }  
     public Pet()
     {
         
     }
-    public Pet(String nome, String especie, String raca, String proprietario, String data, String cpfdono, String senha)
+    public Pet(String nome, String especie, String raca, String proprietario, String data, String cpfdono)
     {
         this.nome = nome;
         this.especie = especie;
@@ -183,7 +230,6 @@ public class Pet {
         this.proprietario = proprietario;
         this.data = data;
         this.cpfdono = cpfdono;
-        this.senha = senha;
     }
     
     public Pet (String cpf) throws SQLException
@@ -201,65 +247,73 @@ public class Pet {
         this.data = rs.getString("pkdata");
         this.especie = rs.getString("especie");
         this.raca = rs.getString("raca");  
-        this.senha = rs.getString("senha");
         
         conn.close();
          
     }
     
-    public void agendarConsulta(Pet p, String data, String horario, String sintomas)
-    {
-        Connection conn = Banco.getConnection();
-        String sql = "SELECT * FROM pet WHERE pkcpfdono = ? AND nomepet = ?";
-        
-        try(PreparedStatement smt = conn.prepareStatement(sql))
-        { 
-            smt.setString(1, p.getCpfdono());
-            smt.setString(2, p.getNome());
-            
-            ResultSet rs = smt.executeQuery();
-            
-            if(rs.next() == true)
-            {
-                Connection connt = Banco.getConnection();
-                String sqlt = "INSERT INTO consulta (pkdata,pkhora,sintomas,cpfdonopet) VALUES(?,?,?,?)";
-        
-                try(PreparedStatement smtt = connt.prepareStatement(sqlt))
-                { 
-                    smtt.setString(1, data);
-                    smtt.setString(2, horario);
-                    smtt.setString(3, sintomas);
-                    smtt.setString(4, p.getCpfdono());
-            
-                    ResultSet rst = smtt.executeQuery();
-                   
-                    connt.close();
-                    
-                    System.out.println("Consulta cadastrada");
-                }
-                catch(SQLException e)
-                {
-                    e.printStackTrace();
-                }
+    public boolean petCadastrado(String cpfdono, String nome) {
+        try (Connection conn = Banco.getConnection()) {
+            String sql = "SELECT * FROM pet WHERE pkcpfdono = ? AND nomepet = ?";
+            try (PreparedStatement smt = conn.prepareStatement(sql)) {
+                smt.setString(1, cpfdono);
+                smt.setString(2, nome);
+                ResultSet rs = smt.executeQuery();
+                return rs.next();
             }
-            else
-            {
-                System.out.println("O pet nao esta cadastrado");
-            }
-            
-            conn.close();
-        }
-        catch(SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
+
+    public boolean horarioDisponivel(String data, String horario) {
+        try (Connection conn = Banco.getConnection()) {
+            String sql = "SELECT * FROM consulta WHERE pkdata = ? AND pkhorario = ?";
+            try (PreparedStatement smt = conn.prepareStatement(sql)) {
+                smt.setString(1, data);
+                smt.setString(2, horario);
+                ResultSet rs = smt.executeQuery();
+                return !rs.next(); // Retorna true se o horário estiver disponível
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void agendarConsulta(Pet p, String data, String horario) {
+    System.out.println("Nome do Pet: " + p.getNome());
+    System.out.println("CPF do Dono: " + p.getCpfdono());
+    
+    if (petCadastrado(p.getCpfdono(), p.getNome())) {
+        System.out.println("Pet cadastrado");
+        if (horarioDisponivel(data, horario)) {
+            try (Connection conn = Banco.getConnection()) {
+                String sql = "INSERT INTO consulta (pkdata, pkhorario, cpfdonopet) VALUES (?, ?, ?)";
+                try (PreparedStatement smt = conn.prepareStatement(sql)) {
+                    smt.setString(1, data);
+                    smt.setString(2, horario);
+                    smt.setString(3, p.getCpfdono());
+                    smt.executeUpdate();
+                    System.out.println("Consulta cadastrada");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Horário indisponível");
+        }
+    } else {
+        System.out.println("O pet não está cadastrado");
+    }
+}
     
     public void updateConsultaData(Pet F, String data, String hora, String Ndata)
     {
 
         Connection conn = Banco.getConnection();
-        String sql = "UPDATE consulta SET pkdata = ? WHERE pkdata = ? and pkhora = ?";
+        String sql = "UPDATE consulta SET pkdata = ? WHERE pkdata = ? and pkhorario = ?";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
@@ -280,7 +334,7 @@ public class Pet {
     {
 
         Connection conn = Banco.getConnection();
-        String sql = "UPDATE consulta SET pkhora = ? WHERE pkdata = ? and pkhora = ?";
+        String sql = "UPDATE consulta SET pkhora = ? WHERE pkdata = ? and pkhorario = ?";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
@@ -301,7 +355,7 @@ public class Pet {
     {
 
         Connection conn = Banco.getConnection();
-        String sql = "UPDATE consulta SET sintomas = ? WHERE pkdata = ? and pkhora = ?";
+        String sql = "UPDATE consulta SET sintomas = ? WHERE pkdata = ? and pkhorario = ?";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
@@ -322,7 +376,7 @@ public class Pet {
     {
 
         Connection conn = Banco.getConnection();
-        String sql = "UPDATE consulta SET medicamento = ? WHERE pkdata = ? and pkhora = ?";
+        String sql = "UPDATE consulta SET medicamento = ? WHERE pkdata = ? and pkhorario = ?";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
@@ -343,7 +397,7 @@ public class Pet {
     {
 
         Connection conn = Banco.getConnection();
-        String sql = "UPDATE consulta SET tratamento = ? WHERE pkdata = ? and pkhora = ?";
+        String sql = "UPDATE consulta SET tratamento = ? WHERE pkdata = ? and pkhorario = ?";
         
         try(PreparedStatement smt = conn.prepareStatement(sql))
         {
@@ -353,38 +407,6 @@ public class Pet {
             ResultSet rs = smt.executeQuery();
             
             conn.close();
-        }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-    
-    public void petLogin(String l, String s)
-    {
-        Connection conn = Banco.getConnection();
-        String sql = "SELECT * FROM pet";
-        
-        try(PreparedStatement smt = conn.prepareStatement(sql))
-        {
-            ResultSet rs = smt.executeQuery();
-            while(rs.next())
-            {
-                if(l.equals(rs.getString("pkcpfdono")))
-                {
-                    System.out.println("Login suave");
-                    if(s.equals(rs.getString("senha")))
-                    {
-                        System.out.println("senha correta");
-                    }
-                    else System.out.println("senha incorreta");
-                }
-                else
-                {
-                    System.out.println("Login incorreto");
-                }
-            }
-            conn.close();              
         }
         catch(SQLException e)
         {
@@ -488,19 +510,21 @@ public class Pet {
     public void setCpfdono(String cpfdono) {
         this.cpfdono = cpfdono;
     }
-
-    /**
-     * @return the senha
-     */
-    public String getSenha() {
-        return senha;
+    
+    public void clearList(){
+        funclist.clear();
     }
-
-    /**
-     * @param senha the senha to set
-     */
-    public void setSenha(String senha) {
-        this.senha = senha;
+    
+    public int getSize(){
+        return funclist.size();
+    }
+    
+    public void setPet(int i){
+        setNome(funclist.get(i).nome);
+        setEspecie(funclist.get(i).especie);
+        setRaca(funclist.get(i).raca);
+        setProprietario(funclist.get(i).proprietario);
+        setCpfdono(funclist.get(i).cpfdono);
     }
      
 }

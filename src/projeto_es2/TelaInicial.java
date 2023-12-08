@@ -4,26 +4,127 @@
  */
 package projeto_es2;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  *
  * @author vitor
  */
 public class TelaInicial extends javax.swing.JFrame {
-
+    
+    TelaCadastroPets TP = new TelaCadastroPets();
+    
+    TelaGestaoFuncionarios TF = new TelaGestaoFuncionarios();
+    
+    TelaAgendarConsulta AC = new TelaAgendarConsulta();
+    
+    TelaProntuario P = new TelaProntuario();
+    
+    TelaEstoqueMedicamentos EM = new TelaEstoqueMedicamentos();
+    
+    private String LoginFuncao;
+    private String LoginNome;
+    Image icon = new ImageIcon(this.getClass().getResource("/logo.png.png")).getImage();
+    
     /**
      * Creates new form TelaInicial
      */
-    public TelaInicial() {
+    public TelaInicial(String L, String N) {
+        setIconImage(icon);
+        setLoginFuncao(L);
+        setLoginNome(N);
         initComponents();
+        setBackground(new Color(0,0,0,0));
+        newJPanel1.setOpaque(false);
+        ButtonMin.setBackground(new Color(0,0,0,0));
+        ButtonClose.setBackground(new Color(0,0,0,0));
+        menu1.initMoving(TelaInicial.this);
+        initMoving(TelaInicial.this);
+        TF.SetTable();
+        TP.SetTable();
+        EM.SetTable();
+        menu1.addSelectedMenu(new SelectedMenu(){
+            
+            @Override
+            public void Selecionado(int index){
+                switch (index) {
+                    case 0: 
+                        setForm(TP);
+                        break;
+                    case 1:
+                        setForm(AC);
+                        break;
+                    case 2:
+                        if("Veterinário".equals(LoginFuncao)){
+                            setForm(P);
+                        }else{
+                           JOptionPane.showMessageDialog(TelaInicial.this,"Apenas Veterinarios podem acessar está tela!");
+                        }
+                        break;
+                    case 3: 
+                        setForm(EM);
+                        break;
+                    case 4:
+                        if("Administrador".equals(LoginFuncao)){
+                            setForm(TF);
+                        }else{
+                            JOptionPane.showMessageDialog(TelaInicial.this, "Apenas Administradores podem acessar está tela!");
+                        }
+                        break;
+                    case 9:
+                        logout();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+    
+    public void logout(){
+        LoginFuncao = "";
+        LoginNome = "";
+        TelaLogin T = new TelaLogin();
+        T.setVisible(true);
+        this.setVisible(false);
+    }
+    
+    public void setForm(JComponent c){
+        PanelMain.removeAll();
+        PanelMain.add(c);
+        PanelMain.repaint();
+        PanelMain.revalidate();
+    }
+    
+    private int x;
+    private int y;
+    
+    public void initMoving(JFrame f){
         
-        ButtonVoltar.setVisible(false);
-        ButtonConfirmar.setVisible(false);
-        jLabel1.setVisible(false);
-        jLabel2.setVisible(false);
-        TextSenha.setVisible(false);
-        TextCPF.setVisible(false);
+        Panel.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mousePressed(MouseEvent m){
+                x = m.getXOnScreen() - f.getX();
+                y = m.getYOnScreen() - f.getY();
+            }
+        });
+        Panel.addMouseMotionListener(new MouseMotionAdapter(){
+            @Override
+            public void mouseDragged(MouseEvent m){
+                f.setLocation(m.getXOnScreen()-x,m.getYOnScreen()-y);
+            }
+        });
     }
 
     /**
@@ -35,167 +136,162 @@ public class TelaInicial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ButtonCadastrarPets = new javax.swing.JButton();
-        ButtonGestaoFuncionarios = new javax.swing.JButton();
-        ButtonConfirmar = new javax.swing.JButton();
-        TextSenha = new javax.swing.JTextField();
-        TextCPF = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        ButtonVoltar = new javax.swing.JButton();
+        newJPanel1 = new projeto_es2.NewJPanel();
+        menu1 = new projeto_es2.Menu(LoginFuncao,LoginNome);
+        PanelMain = new javax.swing.JPanel();
+        Panel = new javax.swing.JPanel();
+        ButtonClose = new javax.swing.JButton();
+        ButtonMin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
-        ButtonCadastrarPets.setText("Cadastrar Pet");
-        ButtonCadastrarPets.setPreferredSize(new java.awt.Dimension(200, 25));
-        ButtonCadastrarPets.addActionListener(new java.awt.event.ActionListener() {
+        newJPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        PanelMain.setBackground(new java.awt.Color(255, 255, 255));
+        PanelMain.setLayout(new java.awt.BorderLayout());
+
+        Panel.setOpaque(false);
+
+        ButtonClose.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ButtonClose.setText("X");
+        ButtonClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonCloseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonCloseMouseExited(evt);
+            }
+        });
+        ButtonClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonCadastrarPetsActionPerformed(evt);
+                ButtonCloseActionPerformed(evt);
             }
         });
 
-        ButtonGestaoFuncionarios.setText("Gestão de Funcionários");
-        ButtonGestaoFuncionarios.setPreferredSize(new java.awt.Dimension(200, 25));
-        ButtonGestaoFuncionarios.addActionListener(new java.awt.event.ActionListener() {
+        ButtonMin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ButtonMin.setText("―");
+        ButtonMin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonMinMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonMinMouseExited(evt);
+            }
+        });
+        ButtonMin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonGestaoFuncionariosActionPerformed(evt);
+                ButtonMinActionPerformed(evt);
             }
         });
 
-        ButtonConfirmar.setText("Confirmar");
-        ButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonConfirmarActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout PanelLayout = new javax.swing.GroupLayout(Panel);
+        Panel.setLayout(PanelLayout);
+        PanelLayout.setHorizontalGroup(
+            PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
+                .addGap(0, 944, Short.MAX_VALUE)
+                .addComponent(ButtonMin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(ButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        PanelLayout.setVerticalGroup(
+            PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(ButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ButtonMin, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
-        jLabel1.setText("CPF:");
-
-        jLabel2.setText("Senha:");
-
-        ButtonVoltar.setText("Voltar");
-        ButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonVoltarActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout newJPanel1Layout = new javax.swing.GroupLayout(newJPanel1);
+        newJPanel1.setLayout(newJPanel1Layout);
+        newJPanel1Layout.setHorizontalGroup(
+            newJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newJPanel1Layout.createSequentialGroup()
+                .addComponent(menu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(newJPanel1Layout.createSequentialGroup()
+                        .addComponent(PanelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        newJPanel1Layout.setVerticalGroup(
+            newJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newJPanel1Layout.createSequentialGroup()
+                .addComponent(Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(menu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(198, 198, 198)
-                        .addComponent(ButtonCadastrarPets, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(116, 116, 116)
-                        .addComponent(ButtonGestaoFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(361, 361, 361)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextSenha)
-                            .addComponent(TextCPF)
-                            .addComponent(ButtonConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ButtonVoltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(166, Short.MAX_VALUE))
+            .addComponent(newJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(112, 112, 112)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButtonCadastrarPets, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonGestaoFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TextCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TextSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
-                .addComponent(ButtonConfirmar)
-                .addGap(26, 26, 26)
-                .addComponent(ButtonVoltar)
-                .addContainerGap(143, Short.MAX_VALUE))
+            .addComponent(newJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonGestaoFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGestaoFuncionariosActionPerformed
+    private void ButtonMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonMinActionPerformed
         // TODO add your handling code here:
-        
-        ButtonCadastrarPets.setVisible(false);
-        ButtonGestaoFuncionarios.setVisible(false);
-        
-        ButtonVoltar.setVisible(true);
-        ButtonConfirmar.setVisible(true);
-        jLabel1.setVisible(true);
-        jLabel2.setVisible(true);
-        TextSenha.setVisible(true);
-        TextCPF.setVisible(true);
-    }//GEN-LAST:event_ButtonGestaoFuncionariosActionPerformed
+        setExtendedState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_ButtonMinActionPerformed
 
-    private void ButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConfirmarActionPerformed
+    private void ButtonMinMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMinMouseExited
         // TODO add your handling code here:
-        
-        String cpf = TextCPF.getText();
-        String senha = TextSenha.getText();
-        
-        String nome = "Joao";
-        String sobrenome = "Silva";
-        String funcao = "Administrador";
-        int linha = 0;
-        
-        //Verificar senha e Cpf no Banco de Dados
-        
-        if(cpf.equals("12345678901")&&senha.equals("teste")){
-            TelaGestaoFuncionarios TGF = new TelaGestaoFuncionarios();
-            
-            //ADD Percorrer o Banco de Dados Adicionando as informações dos funcionários na tabela
-            
-            //ADD informações na tabela
-            //TGF.setTableFuncionarios(nome, sobrenome, cpf, funcao, linha);
-        
-            TGF.setVisible(true);
-        
-            this.setVisible(false);
-            
-        }else{
-            JOptionPane.showMessageDialog(this, "Senha ou CPF incorreto!");
-        }
-    }//GEN-LAST:event_ButtonConfirmarActionPerformed
+        ButtonMin.setBackground(new Color(0,0,0,0));
+    }//GEN-LAST:event_ButtonMinMouseExited
 
-    private void ButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonVoltarActionPerformed
+    private void ButtonMinMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMinMouseEntered
         // TODO add your handling code here:
-        
-        ButtonCadastrarPets.setVisible(true);
-        ButtonGestaoFuncionarios.setVisible(true);
-        
-        ButtonVoltar.setVisible(false);
-        ButtonConfirmar.setVisible(false);
-        jLabel1.setVisible(false);
-        jLabel2.setVisible(false);
-        TextSenha.setVisible(false);
-        TextCPF.setVisible(false);
-    }//GEN-LAST:event_ButtonVoltarActionPerformed
+        ButtonMin.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_ButtonMinMouseEntered
 
-    private void ButtonCadastrarPetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCadastrarPetsActionPerformed
+    private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
         // TODO add your handling code here:
-        
-        TelaCadastroPets TP = new TelaCadastroPets();
-        
-        TP.setVisible(true);
-        
-        this.setVisible(false);
-    }//GEN-LAST:event_ButtonCadastrarPetsActionPerformed
+        CloseAnimation();
+    }//GEN-LAST:event_ButtonCloseActionPerformed
+
+    private void ButtonCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonCloseMouseExited
+        // TODO add your handling code here:
+        ButtonClose.setBackground(new Color(0,0,0,0));
+        ButtonClose.setForeground(Color.BLACK);
+    }//GEN-LAST:event_ButtonCloseMouseExited
+
+    private void ButtonCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonCloseMouseEntered
+        // TODO add your handling code here:
+        ButtonClose.setBackground(Color.red);
+        ButtonClose.setForeground(Color.WHITE);
+    }//GEN-LAST:event_ButtonCloseMouseEntered
   
+    private void CloseAnimation() {
+    Timer timer = new Timer(50, new ActionListener() {
+        private float alpha = 0.5f;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            alpha -= 0.05f;
+
+            if (alpha <= 0.0f) {
+                ((Timer) e.getSource()).stop();
+                System.exit(0);
+            }
+
+            setOpacity(alpha);
+        }
+    });
+
+    timer.start();
+}
+    
     /**
      * @param args the command line arguments
      */
@@ -226,19 +322,45 @@ public class TelaInicial extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaInicial().setVisible(true);
+                new TelaInicial("","").setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonCadastrarPets;
-    private javax.swing.JButton ButtonConfirmar;
-    private javax.swing.JButton ButtonGestaoFuncionarios;
-    private javax.swing.JButton ButtonVoltar;
-    private javax.swing.JTextField TextCPF;
-    private javax.swing.JTextField TextSenha;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    public javax.swing.JButton ButtonClose;
+    public javax.swing.JButton ButtonMin;
+    private javax.swing.JPanel Panel;
+    private javax.swing.JPanel PanelMain;
+    private projeto_es2.Menu menu1;
+    private projeto_es2.NewJPanel newJPanel1;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the LoginFuncao
+     */
+    public String getLoginFuncao() {
+        return LoginFuncao;
+    }
+
+    /**
+     * @param LoginFuncao the LoginFuncao to set
+     */
+    public void setLoginFuncao(String LoginFuncao) {
+        this.LoginFuncao = LoginFuncao;
+    }
+
+    /**
+     * @return the LoginNome
+     */
+    public String getLoginNome() {
+        return LoginNome;
+    }
+
+    /**
+     * @param LoginNome the LoginNome to set
+     */
+    public void setLoginNome(String LoginNome) {
+        this.LoginNome = LoginNome;
+    }
 }
